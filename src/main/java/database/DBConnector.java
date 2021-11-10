@@ -12,8 +12,8 @@ public class DBConnector {
 
     //implementation of singleton design pattern
     synchronized public static DBConnector getInstance(){
-        if(instance != null){
-            DBConnector dbConnector = new DBConnector();
+        if(instance == null){
+            instance = new DBConnector();
         }
         return instance;
     }
