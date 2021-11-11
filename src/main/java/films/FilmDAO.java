@@ -88,4 +88,51 @@ public class FilmDAO {
     }
 
 
+    public List<FilmDTO> findByTitle(String searchedTitle){
+
+        DBConnector dbConnector = DBConnector.getInstance();
+        Connection connection = dbConnector.getConnection();
+        ResultSet resultSet = null;
+        StringBuilder sqlQueryBuilder = new StringBuilder()
+                .append("select f.id as film_id, ")
+                .append("f.title as film_title, ")
+                .append("f.length_in_minutes as film_length, ")
+                .append("f.year_of_production as film_year_of_production, ")
+                .append("f.rate as film_rate from films f ")
+                .append("where f.title=?;");
+        String sqlQuery = sqlQueryBuilder.toString();
+        List<FilmDTO> listOfFilmsByGivenTitle = new ArrayList<FilmDTO>();
+        PreparedStatement preparedStatement = null;
+
+        try {
+            preparedStatement = connection.prepareStatement(sqlQuery);
+            preparedStatement.setString(1, searchedTitle);
+            resultSet = preparedStatement.executeQuery();
+            while(resultSet.next()){
+                int id = resultSet.getInt("film_id");
+                String title = resultSet.getString("film_title");
+                int length = resultSet.getInt("film_length");
+                int year_of_production = resultSet.getInt("film_year_of_production");
+                double rate = resultSet.getDouble("film_rate");
+
+                FilmDTO filmDTO = FilmDTO.builder()
+                        .id(id)
+                        .title(title)
+                        .length_in_minutes(length)
+                        .year_of_production(year_of_production)
+                        .rate(rate)
+                        .build();
+                listOfFilmsByGivenTitle.add(filmDTO);
+
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } finally {
+            dbConnector.closeDataBaseConnection(connection, preparedStatement, resultSet);
+        }
+        return listOfFilmsByGivenTitle;
+
+    }
+
+
 }

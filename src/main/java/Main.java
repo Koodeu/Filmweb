@@ -9,7 +9,7 @@ public class Main {
 
         FilmDAO filmDAO = new FilmDAO();
 //        System.out.println(filmDAO.getFilmTitles());
-        System.out.println(filmDAO.getFilms());
+        System.out.println(filmDAO.findByTitle("Karate Kid"));
 
 
 
