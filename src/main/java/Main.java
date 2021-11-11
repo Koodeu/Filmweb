@@ -8,7 +8,10 @@ public class Main {
     public static void main(String[] args) {
 
         FilmDAO filmDAO = new FilmDAO();
-        System.out.println(filmDAO.getFilmsTitles());
+//        System.out.println(filmDAO.getFilmTitles());
+        System.out.println(filmDAO.getFilms());
+
+
 
 
     }
