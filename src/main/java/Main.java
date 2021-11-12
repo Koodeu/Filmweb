@@ -13,8 +13,9 @@ public class Main {
 //        System.out.println(filmDAO.getFilms());
 //        System.out.println(filmDAO.findByTitle("Karate Kid 2"));
 
-//        filmDAO.addFilmToDataBase("Star Wars: Empire Strikes Back", 134, 1, 1982, 2, 9.6);
-        filmDAO.deleteFilmFromDataBaseByGivenTitle("Karate Kid");
+//        filmDAO.addFilmToDataBase("Star Wars: Return of the Jedi", 138, 1, 1987, 2, 9.1);
+//        filmDAO.deleteFilmFromDataBaseByGivenTitle("Karate Kid");
+        filmDAO.updateFilmByGivenId(1, "Dzieciak Karate", 124, 2, 2001, 6, 6.8);
 
     }
 }

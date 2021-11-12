@@ -189,5 +189,42 @@ public class FilmDAO {
 
     }
 
+    public int updateFilmByGivenId(int id, String title, int length, int category_id,
+                                       int year_of_production, int director_id, double rating){
+
+        DBConnector dbConnector = DBConnector.getInstance();
+        Connection connection = dbConnector.getConnection();
+        String sqlQuery = null;
+        PreparedStatement preparedStatement = null;
+        StringBuilder sqlQueryBuilder = new StringBuilder()
+                .append("update films ")
+                .append("set title = ?, " +
+                        "length_in_minutes = ?, " +
+                        "category_id = ?, " +
+                        "year_of_production = ?, " +
+                        "director_id = ?, " +
+                        "rate = ? ")
+                .append("where id = ?");
+        sqlQuery = sqlQueryBuilder.toString();
+
+        try {
+            preparedStatement = connection.prepareStatement(sqlQuery);
+            preparedStatement.setInt(7, id);
+            preparedStatement.setString(1, title);
+            preparedStatement.setInt(2, length);
+            preparedStatement.setInt(3, category_id);
+            preparedStatement.setInt(4, year_of_production);
+            preparedStatement.setInt(5, director_id);
+            preparedStatement.setDouble(6, rating);
+            return preparedStatement.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } finally {
+            dbConnector.closeDataBaseConnection(connection, preparedStatement, null);
+        }
+
+        return 0;
+
+    }
 
 }
