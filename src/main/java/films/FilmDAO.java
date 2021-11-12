@@ -87,8 +87,8 @@ public class FilmDAO {
 
     }
 
-
-    public List<FilmDTO> findByTitle(String searchedTitle){
+    //method searching for a film by given title
+    public List<FilmDTO> findByTitle(String searchedTitle) {
 
         DBConnector dbConnector = DBConnector.getInstance();
         Connection connection = dbConnector.getConnection();
@@ -108,7 +108,7 @@ public class FilmDAO {
             preparedStatement = connection.prepareStatement(sqlQuery);
             preparedStatement.setString(1, searchedTitle);
             resultSet = preparedStatement.executeQuery();
-            while(resultSet.next()){
+            while (resultSet.next()) {
                 int id = resultSet.getInt("film_id");
                 String title = resultSet.getString("film_title");
                 int length = resultSet.getInt("film_length");
@@ -133,6 +133,36 @@ public class FilmDAO {
         return listOfFilmsByGivenTitle;
 
     }
+
+    public int addFilmToDataBase(String title, int length, int category_id, int year_of_production, int director_id, double rating ){
+
+        DBConnector dbConnector = DBConnector.getInstance();
+        Connection connection = dbConnector.getConnection();
+        PreparedStatement preparedStatement = null;
+        String sqlQuery = null;
+        StringBuilder sqlQueryBuilder = new StringBuilder()
+                .append("insert into films(title, length_in_minutes, category_id, year_of_production, director_id, rate) ")
+                .append("values(?, ?, ?, ?, ?, ?);");
+        sqlQuery = sqlQueryBuilder.toString();
+
+        try {
+            preparedStatement = connection.prepareStatement(sqlQuery);
+            preparedStatement.setString(1,title);
+            preparedStatement.setInt(2,length);
+            preparedStatement.setInt(3,category_id);
+            preparedStatement.setInt(4, year_of_production);
+            preparedStatement.setInt(5, director_id);
+            preparedStatement.setDouble(6, rating);
+            return preparedStatement.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } finally {
+            dbConnector.closeDataBaseConnection(connection, preparedStatement, null);
+        }
+        return 0;
+
+    }
+
 
 
 }
