@@ -13,8 +13,8 @@ public class Main {
 //        System.out.println(filmDAO.getFilms());
 //        System.out.println(filmDAO.findByTitle("Karate Kid 2"));
 
-        filmDAO.addFilmToDataBase("Star Wars: A new hope", 130, 1, 1978, 1, 9.9);
-
+//        filmDAO.addFilmToDataBase("Star Wars: Empire Strikes Back", 134, 1, 1982, 2, 9.6);
+        filmDAO.deleteFilmFromDataBaseByGivenTitle("Karate Kid");
 
     }
 }

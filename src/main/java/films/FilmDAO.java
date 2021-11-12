@@ -134,7 +134,8 @@ public class FilmDAO {
 
     }
 
-    public int addFilmToDataBase(String title, int length, int category_id, int year_of_production, int director_id, double rating ){
+    //adding film to database method - returns int
+    public int addFilmToDataBase(String title, int length, int category_id, int year_of_production, int director_id, double rating) {
 
         DBConnector dbConnector = DBConnector.getInstance();
         Connection connection = dbConnector.getConnection();
@@ -147,9 +148,9 @@ public class FilmDAO {
 
         try {
             preparedStatement = connection.prepareStatement(sqlQuery);
-            preparedStatement.setString(1,title);
-            preparedStatement.setInt(2,length);
-            preparedStatement.setInt(3,category_id);
+            preparedStatement.setString(1, title);
+            preparedStatement.setInt(2, length);
+            preparedStatement.setInt(3, category_id);
             preparedStatement.setInt(4, year_of_production);
             preparedStatement.setInt(5, director_id);
             preparedStatement.setDouble(6, rating);
@@ -163,6 +164,30 @@ public class FilmDAO {
 
     }
 
+    //method deleting film from database of given title
+    public int deleteFilmFromDataBaseByGivenTitle(String titleOfFilmToBeDeleted) {
+
+        DBConnector dbConnector = DBConnector.getInstance();
+        Connection connection = dbConnector.getConnection();
+        String sqlQuery = null;
+        PreparedStatement preparedStatement = null;
+        StringBuilder sqlQueryBuilder = new StringBuilder()
+                .append("delete from films f ")
+                .append("where f.title = ?;");
+        sqlQuery = sqlQueryBuilder.toString();
+
+        try {
+            preparedStatement = connection.prepareStatement(sqlQuery);
+            preparedStatement.setString(1, titleOfFilmToBeDeleted);
+            return preparedStatement.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } finally {
+            dbConnector.closeDataBaseConnection(connection, preparedStatement, null);
+        }
+        return 0;
+
+    }
 
 
 }
