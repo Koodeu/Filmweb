@@ -194,6 +194,7 @@ public class FilmDAO {
 
         DBConnector dbConnector = DBConnector.getInstance();
         Connection connection = dbConnector.getConnection();
+        connection.setAutoCommit(false);
         String sqlQuery = null;
         PreparedStatement preparedStatement = null;
         StringBuilder sqlQueryBuilder = new StringBuilder()
@@ -216,7 +217,9 @@ public class FilmDAO {
             preparedStatement.setInt(4, year_of_production);
             preparedStatement.setInt(5, director_id);
             preparedStatement.setDouble(6, rating);
-            return preparedStatement.executeUpdate();
+            int rowUpdated =  preparedStatement.executeUpdate();
+            connection.commit();
+            return rowUpdated;
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         } finally {
